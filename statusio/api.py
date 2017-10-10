@@ -55,7 +55,7 @@ class Api(object):
         >>> api.IncidentDelete(statuspage_id, incident_id)
         >>> api.MaintenanceList(statuspage_id)
         >>> api.MaintenanceMessage(statuspage_id, message_id)
-        >>> api.MaintenanceSchedule(statuspage_id, components, containers, maintenance_name, maintenance_details, date_planned_start, time_planned_start, date_planned_end, time_planned_end, automation=0, all_infrastructure_affected=0, maintenance_notify_now=0, maintenance_notify_1_hr=0, maintenance_notify_24_hr=0, maintenance_notify_72_hr=0)
+        >>> api.MaintenanceSchedule(statuspage_id, components, containers, maintenance_name, maintenance_details, date_planned_start, time_planned_start, date_planned_end, time_planned_end, automation=0, all_infrastructure_affected=0, maintenance_notify_now=0, maintenance_notify_1_hr=0, maintenance_notify_24_hr=0, maintenance_notify_72_hr=0, message_subject='Maintenance Notification')
         >>> api.MaintenanceStart(statuspage_id, maintenance_id, maintenance_details, notify_email=0, notify_sms=0, notify_webhook=0, social=0, irc=0, hipchat=0, slack=0)
         >>> api.MaintenanceUpdate(statuspage_id, maintenance_id, maintenance_details, notify_email=0, notify_sms=0, notify_webhook=0, social=0, irc=0, hipchat=0, slack=0)
         >>> api.MaintenanceFinish(statuspage_id, maintenance_id, maintenance_details, notify_email=0, notify_sms=0, notify_webhook=0, social=0, irc=0, hipchat=0, slack=0)
@@ -442,7 +442,8 @@ class Api(object):
                             maintenance_notify_now=0,
                             maintenance_notify_1_hr=0,
                             maintenance_notify_24_hr=0,
-                            maintenance_notify_72_hr=0):
+                            maintenance_notify_72_hr=0,
+                            message_subject='Maintenance Notification'):
         """Schedule a new maintenance
 
            Args:
@@ -476,6 +477,8 @@ class Api(object):
                Notify subscribers 24 hours before scheduled maintenance start time (1 = Send notification)
              maintenance_notify_72_hr:
                Notify subscribers 72 hours before scheduled maintenance start time (1 = Send notification)
+             message_subject:
+               The message subject for email notifications
 
            Returns:
              A JSON object.
@@ -496,7 +499,8 @@ class Api(object):
             'maintenance_notify_now': maintenance_notify_now,
             'maintenance_notify_1_hr': maintenance_notify_1_hr,
             'maintenance_notify_24_hr': maintenance_notify_24_hr,
-            'maintenance_notify_72_hr': maintenance_notify_72_hr
+            'maintenance_notify_72_hr': maintenance_notify_72_hr,
+            'message_subject': message_subject
         })
         data = json.loads(resp.content.decode('utf-8'))
         return data
